@@ -6,29 +6,25 @@
 #include <map>
 #include <string>
 
-class Node {
-public:
-    unsigned char c;        
-    int frequency;
-    Node *left;
-    Node *right;
-
-    Node(char _c, int f, Node *l = nullptr, Node *r = nullptr)
-        : c(_c), frequency(f), left(l), right(r) {}
-    bool operator<(const Node &node) const { //重载<，优先队列的底层数据结构std::heap是最大堆
-        return frequency > node.frequency;
-    }
-};
-
 class huffmanTree {
-public:
-    struct charater {
-        char c;
-        int f;
+private:
+    struct Node {
+        unsigned char c;        
+        int freq;
+        Node *left;
+        Node *right;
+
+        Node(char _c, int f, Node *l = nullptr, Node *r = nullptr)
+            : c(_c), freq(f), left(l), right(r) {}
+        bool operator<(const Node &node) const { //重载，优先队列的底层数据结构std::heap是最大堆
+            return freq > node.freq;
+        }
     };
-    huffmanTree(std::initializer_list<charater> l) {
-        for (auto i : l) {
-            Node n(i.c, i.f);
+public:
+    
+    huffmanTree(const std::map<char, int>& afMap) {
+        for (auto i : afMap) {
+            Node n(i.first, i.second);
             q.push(n);
         }
         makeHuffmanTree();
@@ -42,7 +38,7 @@ public:
         while (q.size() != 1) {
             Node *left = new Node(q.top()); q.pop();
             Node *right = new Node(q.top()); q.pop();
-            Node node('R', left->frequency + right->frequency, left, right);
+            Node node('R', left->freq + right->freq, left, right);
             q.push(node);
         }
     }
@@ -94,7 +90,7 @@ private:
     void _treeWatch(Node* root);
     static void _printNode(Node* n) {
         if (n != nullptr) {
-            printf("%c:%d\n", n->c, n->frequency);
+            printf("%c:%d\n", n->c, n->freq);
         }
     }
     
