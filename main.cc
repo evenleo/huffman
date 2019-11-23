@@ -32,12 +32,14 @@ void testHuffmanTree() {
 void testHuffmanDecode(const std::string& filename) {
 
     std::string destFilename = "de" + filename;
-    huffmanDecode(filename.data(), destFilename.data());
+
+    huffmanDecode hd;
+    hd.decode(filename.data(), destFilename.data());
 }
 
 int main()
 {
-    testHuffmanTree();
+    // testHuffmanTree();
     testHuffmanDecode("lzeven.bmp");
 
     system("pause");
