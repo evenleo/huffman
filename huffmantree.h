@@ -6,23 +6,22 @@
 #include <map>
 #include <string>
 
-class huffmanTree {
-private:
-    struct Node {
-        unsigned char c;        
-        int freq;
-        Node *left;
-        Node *right;
+struct Node {
+    uchar c;        
+    int freq;
+    Node *left;
+    Node *right;
+    Node(uchar _c, int f, Node *l = nullptr, Node *r = nullptr)
+        : c(_c), freq(f), left(l), right(r) {}
+    bool operator<(const Node &node) const { //重载，优先队列的底层数据结构std::heap是最大堆
+        return freq > node.freq;
+    }
+};
 
-        Node(char _c, int f, Node *l = nullptr, Node *r = nullptr)
-            : c(_c), freq(f), left(l), right(r) {}
-        bool operator<(const Node &node) const { //重载，优先队列的底层数据结构std::heap是最大堆
-            return freq > node.freq;
-        }
-    };
+class huffmanTree {
 public:
     
-    huffmanTree(const std::map<char, int>& afMap) {
+    huffmanTree(const std::map<uchar, int>& afMap) {
         for (auto i : afMap) {
             Node n(i.first, i.second);
             q.push(n);
@@ -42,10 +41,14 @@ public:
             q.push(node);
         }
     }
-    void huffmanCode(std::map<char, std::string>& codeMap) {
+    void huffmanCode(std::map<uchar, std::string>& codeMap) {
         Node node = q.top(); 
         std::string prefix;
         _huffmanCode(&node, prefix, codeMap);
+    }
+
+    Node getHuffmanTree() {
+        return q.top();
     }
     
     struct nodeBacklog {  //回溯点
@@ -95,7 +98,7 @@ private:
     }
     
     void _huffmanCode(Node *root, std::string& prefix, 
-                      std::map<char, std::string>& codeMap) {
+                      std::map<uchar, std::string>& codeMap) {
         std::string tmp = prefix;
         if (root->left != nullptr) {
             prefix += '0';
@@ -165,7 +168,5 @@ void huffmanTree::_treeWatch(Node* root) {
         }
     }
 }
-
-
 
 #endif

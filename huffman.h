@@ -10,16 +10,17 @@
 //index位置0
 #define CLR_BYTE(vbyte, index) ((vbyte) &= (~(1 << ((index) ^ 7))))
 
+using uchar = unsigned char;
 
 struct huffmanFileHead {
-	unsigned char flag[4];				//压缩二进制文件头部标志 ycy
-	unsigned char alphaVariety;		//字符种类
-	unsigned char lastValidBit;		//最后一个字节的有效位数
-	unsigned char unused[11];			//待用空间
+	char flag[4];				//压缩二进制文件头部标志 ycy
+	uchar alphaVariety;		//字符种类
+	uchar lastValidBit;		//最后一个字节的有效位数
+	char unused[11];			//待用空间
 };								//这个结构体总共占用16个字节的空间
 
 struct alphaFreq {
-	unsigned char alpha;		//字符,考虑到文件中有汉字，所以定义成unsigned char
+	uchar alpha;		//字符,考虑到文件中有汉字，所以定义成uchar
 	int freq;	               //字符出现的频度
     alphaFreq() {}
 	alphaFreq(const std::pair<char, int>& x) 

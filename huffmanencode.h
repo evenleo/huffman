@@ -1,12 +1,13 @@
 #include <map>
 
 #include "huffman.h"
+#include "huffmantree.h"
 
 //https://blog.csdn.net/weixin_38214171/article/details/81626498
 
 
 void getAlphaFreq(const std::string& filename, 
-                  std::map<char, int>& afMap) {
+                  std::map<uchar, int>& afMap) {
 	FILE *fpIn = fopen(filename.data(), "rb");
 	int ch = fgetc(fpIn);
 	while (!feof(fpIn)) {
@@ -16,8 +17,8 @@ void getAlphaFreq(const std::string& filename,
 	fclose(fpIn);
 }
 
-int getlastValidBit(const std::map<char, int>& afMap, 
-                    const std::map<char, std::string>& codeMap) {
+int getlastValidBit(const std::map<uchar, int>& afMap, 
+                    const std::map<uchar, std::string>& codeMap) {
 	int sum = 0;
 	for (auto it : codeMap) {
 		sum += it.second.size() * afMap.at(it.first);
@@ -29,15 +30,15 @@ int getlastValidBit(const std::map<char, int>& afMap,
 
 void huffmanEncode(const std::string& srcFilename, 
                    const std::string& destFilename,
-				   const std::map<char, int>& afMap, 
-                   const std::map<char, std::string>& codeMap) {
+				   const std::map<uchar, int>& afMap, 
+                   const std::map<uchar, std::string>& codeMap) {
     FILE *fpIn;
 	FILE *fpOut;
 	int ch;
-	unsigned char value;
+	uchar value;
 	int bitIndex = 0;
     huffmanFileHead fileHead = {'e', 'v', 'e', 'n'};
-	fileHead.alphaVariety = (unsigned char) afMap.size();
+	fileHead.alphaVariety = (uchar) afMap.size();
 	fileHead.lastValidBit = getlastValidBit(afMap, codeMap);
 
     fpIn = fopen(srcFilename.data(), "rb");
@@ -61,13 +62,13 @@ void huffmanEncode(const std::string& srcFilename,
 			++bitIndex;
 			if (bitIndex >= 8) {
 				bitIndex = 0;
-				fwrite(&value, sizeof(unsigned char), 1, fpOut);
+				fwrite(&value, sizeof(uchar), 1, fpOut);
 			}
 		} 
 		ch = fgetc(fpIn);
 	}
 	if (bitIndex) {
-		fwrite(&value, sizeof(unsigned char), 1, fpOut);
+		fwrite(&value, sizeof(uchar), 1, fpOut);
 	}
 
 	fclose(fpIn);
