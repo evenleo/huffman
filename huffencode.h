@@ -7,7 +7,6 @@
 #include "huffman.h"
 #include "huffTree.h"
 
-//https://blog.csdn.net/weixin_38214171/article/details/81626498
 namespace huffman {
 
 class huffEncode {
