@@ -91,7 +91,7 @@ private:
     }
     void _treeWatch(Node* root);
     static void _printNode(Node* n) {
-        if (n != nullptr) {
+        if (!n) {
             printf("%c:%d\n", n->c, n->freq);
         }
     }
