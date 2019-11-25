@@ -39,6 +39,13 @@ private:
         }
         
         is.read((char*)_fileHead, sizeof(fileHead));
+        if (!(_fileHead->flag[0] == 'e' && 
+              _fileHead->flag[1] == 'v' &&
+              _fileHead->flag[2] == 'e' &&
+              _fileHead->flag[3] == 'n')) {
+            printf("not support this file format! filename: %s\n", filename);
+            return false;
+        }
         for (int i = 0; i < static_cast<int>(_fileHead->alphaVariety); ++i) {
             alphaFreq af;
             is.read((char*)&af, sizeof(af));
@@ -103,7 +110,7 @@ private:
     }
 public:
     bool decode(const char* srcFilename, const char* destFilename) {
-        _getAlphaFreq(srcFilename);
+        if (!_getAlphaFreq(srcFilename)) return false;
         long fileSize = _getFileSize(srcFilename);
         _htree = new huffTree(_afMap);
         _htree->watch();  

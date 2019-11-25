@@ -18,8 +18,9 @@ void testHuffDecode(const std::string& filename) {
 int main()
 {
     std::string filename = "lz.bmp";
-    // testHuffTree(filename);
-    // testHuffDecode("en" + filename);
+    
+    testHuffTree(filename);
+    testHuffDecode("en" + filename);
 
     system("pause");
     return 0;
