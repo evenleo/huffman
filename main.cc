@@ -1,49 +1,26 @@
-// #pragma pack(push)
-// #pragma pack(1)		//内存对其改为1个字节对齐模式
+#include "huffencode.h";
+#include "huffdecode.h"
 
-#include "huffmanencode.h";
-#include "huffmandecode.h"
+using namespace huffman;
 
-void visitCode(std::map<uchar, std::string>& codeMap) {
-    for (auto m : codeMap) {
-        printf("%c: %s\n", m.first, m.second.data());
-    }
+void testHuffTree(const std::string& filename) {
+    std::string destFilename = "en" + filename;
+    huffEncode he;
+    he.encode(filename.data(), destFilename.data());
 }
 
-void testHuffmanTree() {
-    std::string srcFilename = "lz.bmp";
-    std::string destFilename = "lzeven.bmp";
-
-    std::map<uchar, int> afMap;
-    getAlphaFreq(srcFilename, afMap);
-
-    huffmanTree htree(afMap);
-    htree.watch();  
-    printf("huffmanCode:\n");
-    std::map<uchar, std::string> codeMap;
-    htree.huffmanCode(codeMap);
-    // visitCode(codeMap);
-    std::cout << "" << std::endl;
-    printf("write data to file!\n");
-    
-    huffmanEncode(srcFilename, destFilename, afMap, codeMap);
-}
-
-void testHuffmanDecode(const std::string& filename) {
-
+void testHuffDecode(const std::string& filename) {
     std::string destFilename = "de" + filename;
-
-    huffmanDecode hd;
+    huffDecode hd;
     hd.decode(filename.data(), destFilename.data());
 }
 
 int main()
 {
-    // testHuffmanTree();
-    testHuffmanDecode("lzeven.bmp");
+    std::string filename = "lz.bmp";
+    // testHuffTree(filename);
+    // testHuffDecode("en" + filename);
 
     system("pause");
     return 0;
 }
-
-// #pragma pack(pop)
