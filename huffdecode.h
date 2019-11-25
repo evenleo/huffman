@@ -3,7 +3,7 @@
 
 #include <map>
 #include <fstream>
-#include <string.h>
+
 #include "huffman.h"
 #include "huffTree.h"
 
