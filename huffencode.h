@@ -12,13 +12,13 @@ namespace huffman {
 class huffEncode {
 public:
 	bool encode(const char* srcFilename, const char* destFilename) {
-		if (!getAlphaFreq(srcFilename)) return false;
+		if (!_getAlphaFreq(srcFilename)) return false;
 		huffTree htree(_afMap);
 		htree.huffmanCode(_codeMap);
 		return _encode(srcFilename, destFilename);
 	}
 private:
-	int getlastValidBit() {
+	int _getLastValidBit() {
 		int sum = 0;
 		for (auto it : _codeMap) {
 			sum += it.second.size() * _afMap.at(it.first);
@@ -27,7 +27,7 @@ private:
 		sum &= 0x7;
 		return sum == 0 ? 8 : sum;
 	}
-	bool getAlphaFreq(const char* filename) {
+	bool _getAlphaFreq(const char* filename) {
 		uchar ch;
 		std::ifstream is(filename, std::ios::binary);
 		if (!is.is_open()) {
@@ -48,7 +48,7 @@ private:
 		int bitIndex = 0;
 		fileHead filehead = {'e', 'v', 'e', 'n'};
 		filehead.alphaVariety = (uchar) _afMap.size();
-		filehead.lastValidBit = getlastValidBit();
+		filehead.lastValidBit = _getLastValidBit();
 
 		std::ifstream is(srcFilename, std::ios::binary);
 		if (!is.is_open()) {
