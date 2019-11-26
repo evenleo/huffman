@@ -18,8 +18,8 @@ struct fileHead {
 };								//这个结构体总共占用16个字节的空间
 
 struct alphaFreq {
-	uchar alpha;		       //字符,考虑到文件中有汉字，所以定义成uchar
-	int freq;	               //字符出现的频度
+	uchar alpha;		        //字符,考虑到文件中有汉字，所以定义成uchar
+	int freq;	                //字符出现的频度
     alphaFreq() {}
 	alphaFreq(const std::pair<char, int>& x) 
 	  : alpha(x.first), freq(x.second) {}	
